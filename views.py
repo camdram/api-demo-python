@@ -21,11 +21,18 @@ def login(request):
 	result.user.update()
         if result.user:
             response.write('<h1>Hello ' + result.user.name + '</h1>')
+
             response.write('<h2>My Shows:</h2><ul>')
-            
             showsResponse = result.provider.access(config.CAMDRAM_URL + '/auth/account/shows.json')
             print showsResponse.data
             for show in showsResponse.data:
                 response.write('<li>' + show['name'] + '</li>')
+            response.write('</ul>')
+
+            response.write('<h2>My Organisations:</h2><ul>')
+            orgsResponse = result.provider.access(config.CAMDRAM_URL + '/auth/account/organisations.json')
+            print orgsResponse.data
+            for org in orgsResponse.data:
+                response.write('<li>' + org['name'] + '</li>')
             response.write('</ul>')
     return response
